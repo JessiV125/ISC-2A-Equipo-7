@@ -1,21 +1,15 @@
-//Hola solo es prueba
-/*Alinne
+/*
+Proyecto FRED
+  Alinne
   Valeria
   Vanne
   Danna
-  Paco de Banano
+*/
 
-  cambio hola jijijij ajjaaja ojoisjokasjd
-  */
-  //sisisisiisiisisisiisisisi
-
-
+#include <iostream>
+using namespace std;
   
-  #include <iostream>
-  using namespace std;
-  
-  int main(){
-    cout << "Hola mundo";
-    cout << "Soy una papa voladora";
-    return 0;
-  }
+int main(){
+  cout << "Proyecto FRED";
+  return 0;
+}
