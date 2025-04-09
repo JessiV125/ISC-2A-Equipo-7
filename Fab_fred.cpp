@@ -3,4 +3,6 @@
   Valeria
   Vanne
   Danna
+  Hay que preguntarle a la mestra porque no le estamos entendiendooooooooooooooooooooo
+  Ayudaaaaaaaaaaaaaaaaaaaa
   */
