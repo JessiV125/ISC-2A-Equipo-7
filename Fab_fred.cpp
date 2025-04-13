@@ -1,7 +1,10 @@
 #include <iostream>
 using namespace std;
 
+// 
 void MostrarMenu();
+void iniciarSesión();
+void realizarRegistro();
 
 int main(){
   cout << "Proyecto FRED";
@@ -18,5 +21,14 @@ void MostrarMenu(){
   cout << "2 - Opcion";
   cout << "Ingresa una opcion: ";
   cin >> opc;
+  
+}
+
+
+void iniciarSesión(){
+
+}
+
+void realizarRegistro(){
   
 }
