@@ -7,6 +7,9 @@ void MostrarMenu();
 void iniciarSesión();
 void realizarRegistro();
 void elegirNivel();
+void jugarNivel1();
+void jugarNivel2();
+void jugarNivel3();
 
 int main(){
   cout << "Proyecto FRED";
