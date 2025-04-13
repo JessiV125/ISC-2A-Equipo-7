@@ -1,8 +1,17 @@
 #include <iostream>
 #include<math.h>
+#include<windows.h> // Para manejar graficos 
 using namespace std;
 
-// 
+// Obtener manejador de consola
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
+
+//CONSTANTES
+
+//COLORES
+enum{AZUL=1, VERDE, CYAN, ROJO, MAGENTA, AMARILLO};
+
+// PROTOTIPOS
 void MostrarMenu();
 void iniciarSesión();
 void realizarRegistro();
@@ -17,6 +26,8 @@ int main(){
 
   return 0;
 }
+
+// IMPLEMENTACION 
 
 void MostrarMenu(){
   int opc;
@@ -63,4 +74,16 @@ void elegirNivel(){
           default: cout<<"Ups! esa opcion es invalida, intenta de nuevo";
     }
   }while(opc!=4);
+}
+
+void jugarNivel1(){
+  cout<<"Esta funcion no ha sido implementada";
+}
+
+void jugarNivel1(){
+  cout<<"Esta funcion no ha sido implementada"; 
+}
+
+void jugarNivel1(){
+  cout<<"Esta funcion no ha sido implementada";   
 }
