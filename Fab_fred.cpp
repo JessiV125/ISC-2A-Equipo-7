@@ -1,3 +1,12 @@
+/*
+INTEGRANTES DE EQUIPO
+
+Alinne Alejandra Díaz López
+Valeria Martín de Santos 
+Jessica Vanessa Martínez de la Rosa
+Danna Sofía Morales Esparza 
+*/
+
 #include <iostream>
 #include<math.h>
 #include<windows.h> // Para manejar graficos 
