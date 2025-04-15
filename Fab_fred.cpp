@@ -58,6 +58,14 @@ void realizarRegistro(){
 
 }
 
+/*
+  -Explica reglas del juego
+  -Tiene un menú y da a elegir entre 3 niveles:
+        1)Nivel 1: llama a jugarNivel1
+        2)Nivel 2: llama a jugarNivel2
+        3)Nivel 3: llama a jugarNivel3
+  -En el menú, también tiene opción de atrás: llama a menuOpciones
+*/
 void elegirNivel(){
   int opc=0;
   float opcion=0;
@@ -66,7 +74,7 @@ void elegirNivel(){
     cout<<"\nNivel 1......1";
     cout<<"\nNivel 2......2";
     cout<<"\nNivel 3......3";
-    cout<<"\nSalir........4";
+    cout<<"\nAtras........4";
     cout<<"\nElige una opcion: ";
     cin>>opcion;
     if(cin.fail()){ // Si la entrada no es un numero
