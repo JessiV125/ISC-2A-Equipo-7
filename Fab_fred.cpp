@@ -22,6 +22,7 @@ enum{AZUL=1, VERDE, CYAN, ROJO, MAGENTA, AMARILLO};
 
 // PROTOTIPOS
 void MostrarMenu();
+void MostrarInicio();
 void iniciarSesión();
 void realizarRegistro();
 void elegirNivel();
@@ -51,7 +52,7 @@ void MostrarMenu(){
 
 
 void iniciarSesión(){
-
+      cout<<"Nombre de Usuario:";
 }
 
 void realizarRegistro(){
