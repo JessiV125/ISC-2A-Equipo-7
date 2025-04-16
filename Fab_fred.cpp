@@ -93,6 +93,7 @@ void elegirNivel(){
   }while(opc!=4);
 }
 
+// esta funcion hace tal cosa 
 void jugarNivel1(){
   cout<<"Esta funcion no ha sido implementada";
 }
