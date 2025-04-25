@@ -51,7 +51,7 @@ void MostrarMenu(){
 
 
 void iniciarSesión(){
-
+  cout ;
 }
 
 void realizarRegistro(){
