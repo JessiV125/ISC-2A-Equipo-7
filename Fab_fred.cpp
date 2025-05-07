@@ -10,24 +10,32 @@ Danna Sofía Morales Esparza
 #include <iostream>
 #include<math.h>
 #include<windows.h> // Para manejar graficos 
+#include<conio.h>
+#include<time.h>
+#include<stdlib.h>
 using namespace std;
 
 // Obtener manejador de consola
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
 
 //CONSTANTES
+#define TAMN1 3 // Tamaño para el tablero del primer nivel
+#define TAMN2 5 // Tamaño para el tablero del primer nivel
+#define TAMN3 7 // Tamaño para el tablero del primer nivel
 
 //COLORES
 enum{AZUL=1, VERDE, CYAN, ROJO, MAGENTA, AMARILLO};
 
 // PROTOTIPOS
+void limpiarPantalla();
 void MostrarMenu();
 void iniciarSesión();
 void realizarRegistro();
 void elegirNivel();
-void jugarNivel1();
-void jugarNivel2();
-void jugarNivel3();
+void mostrarReglas();
+void jugarNivel1(int [][TAMN1]);
+void jugarNivel2(int [][TAMN2]);
+void jugarNivel3(int [][TAMN3]);
 
 int main(){
   cout << "Proyecto FRED";
@@ -37,6 +45,10 @@ int main(){
 }
 
 // IMPLEMENTACION 
+void limpiarPantalla(){
+  system("pause"); // Pausar ejecución antes de limpiar la pantalla 
+  system("cls"); // Limpiar la pantalla
+}
 
 void MostrarMenu(){
   int opc;
@@ -67,9 +79,10 @@ void realizarRegistro(){
   -En el menú, también tiene opción de atrás: llama a menuOpciones
 */
 void elegirNivel(){
-  int opc=0;
+  int opc=0, tab1[TAMN1][TAMN1], tab2[TAMN2][TAMN2], tab3[TAMN3][TAMN3];
   float opcion=0;
   cout<<"\nEste es un juego para trabajar tu memeoria:\nSe mostrara en pantalla una secuencia de colores en una tabla\nla cual deberas memorizar y replicar posteriormente.\n\n";
+  cout<<"Muévete por las casillas usando las letras de flechas y presiona Enter para seleccionar una.\n\n";
   do{
     cout<<"\nNivel 1......1";
     cout<<"\nNivel 2......2";
@@ -84,24 +97,27 @@ void elegirNivel(){
     else if(fmod(opcion,1)!=0) cout<<" "; // Descartar numeros con decimales 
     else opc=static_cast<int>(opcion); // convertir opcion a entero para que pueda ser evaluado por switch
     switch(opc){
-          case 1: jugarNivel1(); break;
-          case 2: jugarNivel2(); break;
-          case 3: jugarNivel3(); break;
+          case 1: jugarNivel1(tab1); break;
+          case 2: jugarNivel2(tab2); break;
+          case 3: jugarNivel3(tab3); break;
           case 4: menuOpciones(); break;
           default: cout<<"Ups! esa opcion es invalida, intenta de nuevo";
     }
   }while(opc!=4);
 }
 
-// esta funcion hace tal cosa 
-void jugarNivel1(){
+void mostrarReglas(){
+
+}
+
+void jugarNivel1(int tab1[][TAMN1]){
   cout<<"Esta funcion no ha sido implementada";
 }
 
-void jugarNivel1(){
+void jugarNivel1(int tab2[][TAMN1]){
   cout<<"Esta funcion no ha sido implementada"; 
 }
 
-void jugarNivel1(){
+void jugarNivel1(int tab3[][TAMN1]){
   cout<<"Esta funcion no ha sido implementada";   
 }
