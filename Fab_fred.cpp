@@ -30,6 +30,7 @@ struct Usuario{
 // PROTOTIPOS
 void MostrarMenu();
 void iniciarSesion(Usuario usuarios[], int tope);
+void MostrarInicio();
 void realizarRegistro();
 void elegirNivel();
 void jugarNivel1();
@@ -58,7 +59,6 @@ void MostrarMenu(){
   cin >> opc;
   
 }
-
 
 void iniciarSesion(Usuario usuarios[], int tope){
   char tieneCuenta;
@@ -89,8 +89,7 @@ void iniciarSesion(Usuario usuarios[], int tope){
           cout << "Opcion no valida. Intenta de nuevo. \n";
         }
       
-      
-
+  
   } while(true);   
 }
 
@@ -144,6 +143,7 @@ void elegirNivel(){
   }while(opc!=4);
 }
 
+// esta funcion hace tal cosa 
 void jugarNivel1(){
   cout<<"Esta funcion no ha sido implementada";
 }
