@@ -11,6 +11,7 @@ Danna Sofía Morales Esparza
 #include<math.h>
 #include<windows.h> // Para manejar graficos 
 using namespace std;
+static int tope = 10;    //Contador  y declaración de la variable estatica
 
 // Obtener manejador de consola
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
@@ -20,20 +21,29 @@ HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 //COLORES
 enum{AZUL=1, VERDE, CYAN, ROJO, MAGENTA, AMARILLO};
 
+//STRUCT
+struct Usuario{
+    char nombre[10];
+    char contrasena[20];
+};
+
 // PROTOTIPOS
 void MostrarMenu();
+void iniciarSesion(Usuario usuarios[], int tope);
 void MostrarInicio();
-void iniciarSesión();
 void realizarRegistro();
 void elegirNivel();
 void jugarNivel1();
 void jugarNivel2();
 void jugarNivel3();
+bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char contrasena[]);
+
 
 int main(){
   cout << "Proyecto FRED";
   MostrarMenu();
-
+  Usuario usuarios[10]; //Arreglo de usuarios inicializado
+  iniciarSesion(usuarios, tope);    //  Pasar el arreglo de usuarios
   return 0;
 }
 
@@ -50,9 +60,48 @@ void MostrarMenu(){
   
 }
 
+void iniciarSesion(Usuario usuarios[], int tope){
+  char tieneCuenta;
+  char nombre[20];
+  char contrasena[20];
 
-void iniciarSesión(){
-      cout<<"Nombre de Usuario:";
+  do{
+    cout<<"Tienes una cuenta? (s/n)";
+    cin>> tieneCuenta;
+
+      if (tieneCuenta == 'n' || tieneCuenta == 'N')  {
+       MostrarMenu();
+       break;
+      } else if (tieneCuenta == 's' || tieneCuenta == 'S')  {
+            cout << "Nombre de usuario: ";
+            cin >> nombre;
+            cout << "Contrasena: ";
+            cin>> contrasena;
+
+              if (buscarUsuarios(usuarios, tope, nombre, contrasena)) {
+                MostrarMenu();
+                break;    //Termina el proceso al enttrar correctamente 
+              } else  {
+                cout << "Nombre o contrasena incorrectos. \n";
+              }   //Vuelve al inicio del ciclo
+    
+        } else {
+          cout << "Opcion no valida. Intenta de nuevo. \n";
+        }
+      
+  
+  } while(true);   
+}
+
+bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char contrasena[]){
+  for (int i = 0; i < tope; i++) {
+    if (strcmp(usuarios[i].nombre, nombre) == 0 &&
+    strcmp(usuarios[i].contrasena, contrasena) == 0) {
+    return true;
+}
+}
+return false;
+
 }
 
 void realizarRegistro(){
@@ -88,7 +137,7 @@ void elegirNivel(){
           case 1: jugarNivel1(); break;
           case 2: jugarNivel2(); break;
           case 3: jugarNivel3(); break;
-          case 4: menuOpciones(); break;
+          case 4: MostrarMenu(); break;
           default: cout<<"Ups! esa opcion es invalida, intenta de nuevo";
     }
   }while(opc!=4);
@@ -99,10 +148,10 @@ void jugarNivel1(){
   cout<<"Esta funcion no ha sido implementada";
 }
 
-void jugarNivel1(){
+void jugarNivel2(){
   cout<<"Esta funcion no ha sido implementada"; 
 }
 
-void jugarNivel1(){
+void jugarNivel3(){
   cout<<"Esta funcion no ha sido implementada";   
 }
