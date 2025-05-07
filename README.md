@@ -1,4 +1,8 @@
-Funciones para fabFred
+Cronograma de trabajo: https://eduuaa-my.sharepoint.com/:w:/g/personal/al281957_edu_uaa_mx/Eap6kzy8KjtIpgP-69OantgBVSZ_-efoKTDCaI-Qp_aqcQ?e=5MiaZc
+
+Requsitos para el proyecto (marcar lo que se vaya completando): https://docs.google.com/document/d/1JMDPM7sRZwU58qVjIj_MWZH-BtW1Spc6Jvyumx-W_Jw/edit?usp=sharing
+
+FUNCIONES PARA fabFred
 
 mostrarBienvenida: 
 
