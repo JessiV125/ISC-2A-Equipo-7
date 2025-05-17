@@ -48,7 +48,7 @@ int pasoActual=0; // Determina el elemento de la secuencia que el jugador debe r
 
 
 // COLORES
-enum{AZUL=1, VERDE, CYAN, ROJO, MAGENTA, AMARILLO};
+enum{AZUL=1, VERDE, CIAN, ROJO, MAGENTA, AMARILLO, BLANCO};
 
 // PROTOTIPOS
 void limpiarPantalla();
