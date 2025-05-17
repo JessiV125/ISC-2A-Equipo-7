@@ -125,35 +125,50 @@ void realizarRegistro(){
 
 /*
   -Explica reglas del juego
-  -Tiene un menú y da a elegir entre 3 niveles:
-        1)Nivel 1: llama a jugarNivel1
-        2)Nivel 2: llama a jugarNivel2
-        3)Nivel 3: llama a jugarNivel3
-  -En el menú, también tiene opción de atrás: llama a menuOpciones
+  -Tiene un menú y da a elegir entre 3 niveles
 */
 void elegirNivel(){
-  float opcion=0;
-  cout<<"\nEste es un juego para trabajar tu memeoria:\nSe mostrara en pantalla una secuencia de colores en una tabla\nla cual deberas memorizar y replicar posteriormente.\n\n";
-  cout<<"Muévete por las casillas usando las letras de flechas y presiona Enter para seleccionar una.\n\n";
-  do{
-    cout<<"\nNivel 1......1";
-    cout<<"\nNivel 2......2";
-    cout<<"\nNivel 3......3";
-    cout<<"\nAtras........4";
-    cout<<"\nElige una opcion: ";
-    cin>>opcion;
-    if(cin.fail()){ // Si la entrada no es un numero
-      cin.clear(); // Limpiar estado de error de cin
-      cin.ignore(1000,'\n'); // Descartar entrada inválida hasta mil caracteres o hasta encontrar un salto de línea
-    } 
-    else if(fmod(opcion,1)!=0) cout<<" "; // Descartar numeros con decimales 
-    else opc=static_cast<int>(opcion); // convertir opcion a entero para que pueda ser evaluado por switch
-    switch(opc){
-          case 1: break;
-          case 2: break;
-          case 3: break;
-          case 4: MostrarMenu(); break;
+	system("cls");
+	//Reiniciar estado para nuevo nivel
+	if(secuencia!=NULL){
+		delete[] secuencia;
+		secuencia=NULL;	
+	} 
+	secuenciaMaxima=0;
+	tamTablero=0;
+	puntaje=0;
+	longitudSecuencia=1; 
+	juegoActivo=true;
+	
+	int opc=0;
+	float opcion=0;
+  	cout<<"\nEste es un juego para trabajar tu memeoria:\nSe mostrara en pantalla una secuencia de colores en una tabla\nla cual deberas memorizar y replicar posteriormente.\n\n";
+  	cout<<"Muevete por las casillas usando las teclas de flechas y presiona Enter para seleccionar una.\n\n";
+	do{
+    	cout<<"\nNivel 1......1";
+    	cout<<"\nNivel 2......2";
+    	cout<<"\nNivel 3......3";
+    	cout<<"\nElige una opcion: ";
+    	cin>>opcion;
+    	
+    	// Verificar entrada de opcion
+    	if(cin.fail()){ // Si la entrada no es un numero
+      		cin.clear(); // Limpiar estado de error de cin
+      		cin.ignore(1000,'\n'); // Descartar entrada inválida hasta mil caracteres o hasta encontrar un salto de línea
+    	} 
+    	else if(fmod(opcion,1)==0) opc=static_cast<int>(opcion); // Descartar numeros con decimales // convertir opcion a entero para que pueda ser evaluado por switch
+    	else{ 
+			system("cls");
+			cout<<"Ups! esa opcion es invalida, intenta de nuevo";
+			Sleep(2000);
+			system("cls");	
+		}
+
+		switch(opc){
+        	case 1: jugarNiveles(opc); break; // La funcion recibe opc con el nombre de nivel
+          case 2: jugarNiveles(opc); break;
+          case 3: jugarNiveles(opc); break;
           default: cout<<"Ups! esa opcion es invalida, intenta de nuevo";
-    }
-  }while(opc!=4);
+    	}
+	}while(opc!=4);
 }
