@@ -10,7 +10,7 @@ Danna Sofía Morales Esparza
 #include <iostream>
 #include<math.h>
 #include<windows.h> // Para manejar graficos 
-#include<conio.h>
+#include<conio.h> // Para leer teclas 
 #include<time.h>
 #include<stdlib.h>
 using namespace std;
@@ -40,10 +40,6 @@ void iniciarSesion(Usuario usuarios[], int tope);
 void MostrarInicio();
 void realizarRegistro();
 void elegirNivel();
-void mostrarReglas();
-void jugarNivel1(int [][TAMN1]);
-void jugarNivel2(int [][TAMN2]);
-void jugarNivel3(int [][TAMN3]);
 bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char contrasena[]);
 
 int main(){
@@ -146,31 +142,11 @@ void elegirNivel(){
     else if(fmod(opcion,1)!=0) cout<<" "; // Descartar numeros con decimales 
     else opc=static_cast<int>(opcion); // convertir opcion a entero para que pueda ser evaluado por switch
     switch(opc){
-          case 1: jugarNivel1(tab1); break;
-          case 2: jugarNivel2(tab2); break;
-          case 3: jugarNivel3(tab3); break;
+          case 1: break;
+          case 2: break;
+          case 3: break;
           case 4: MostrarMenu(); break;
           default: cout<<"Ups! esa opcion es invalida, intenta de nuevo";
     }
   }while(opc!=4);
-}
-
-void mostrarReglas(){
-
-}
-
-void jugarNivel1(int tab1[][TAMN1]){
-  cout<<"Esta funcion no ha sido implementada";
-}
-
-void jugarNivel1(int tab2[][TAMN1]){
-  cout<<"Esta funcion no ha sido implementada"; 
-}
-
-void jugarNivel2(){
-  cout<<"Esta funcion no ha sido implementada"; 
-}
-
-void jugarNivel3(){
-  cout<<"Esta funcion no ha sido implementada";   
 }
