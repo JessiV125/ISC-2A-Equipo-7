@@ -20,9 +20,6 @@ static int tope = 10;    //Contador  y declaración de la variable estatica
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
 
 //CONSTANTES
-#define TAMN1 3 // Tamaño para el tablero del primer nivel
-#define TAMN2 5 // Tamaño para el tablero del primer nivel
-#define TAMN3 7 // Tamaño para el tablero del primer nivel
 
 //COLORES
 enum{AZUL=1, VERDE, CYAN, ROJO, MAGENTA, AMARILLO};
@@ -39,8 +36,19 @@ void MostrarMenu();
 void iniciarSesion(Usuario usuarios[], int tope);
 void MostrarInicio();
 void realizarRegistro();
-void elegirNivel();
 bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char contrasena[]);
+
+// FUNCIONES PARA JUGAR
+void elegirNivel();
+void jugarNiveles(int);
+void crearTablero();
+void inicializarTablero();
+void generarSecuencia();
+void mostrarSecuencia();
+void dibujarTablero();
+void moverJugador(int);
+bool verificarSeleccion();
+void eliminarTablero();
 
 int main(){
   cout << "Proyecto FRED";
@@ -124,7 +132,6 @@ void realizarRegistro(){
   -En el menú, también tiene opción de atrás: llama a menuOpciones
 */
 void elegirNivel(){
-  int opc=0, tab1[TAMN1][TAMN1], tab2[TAMN2][TAMN2], tab3[TAMN3][TAMN3];
   float opcion=0;
   cout<<"\nEste es un juego para trabajar tu memeoria:\nSe mostrara en pantalla una secuencia de colores en una tabla\nla cual deberas memorizar y replicar posteriormente.\n\n";
   cout<<"Muévete por las casillas usando las letras de flechas y presiona Enter para seleccionar una.\n\n";
