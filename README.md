@@ -101,24 +101,31 @@ elegirNivel:
 
 
 jugarNiveles:    
+
         Hace llamada a otras funciones para crear tbelro y jugar.
 
 crearTablero:
+
         Crea el tablero del juego con diferentes tamaños dependiendo del nivel que se juega.
 
 inicializarTablero:
+
         iniciliza el tablero
 
 generarSecuencia:
+
         Genera la(s) posicione(s) de la(s) casilla(s) a encender
 
 mostrarSecuencia:
+
         Enciende las celdas y llama a dibujarTablero
 
 dibujarTablero:
+
         Dibuja el tablero para mostrar la secuencia a repetir o la posicion en la que se ubica el jugador para repetir la secuencia
 
 moverJugador:
+
         Mueve al jugador en el tablero dependiendo de la flecha preionada en teclado
 
 verificarSeleccion:
