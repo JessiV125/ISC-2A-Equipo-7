@@ -8,32 +8,28 @@ Danna Sofía Morales Esparza
 */
 
 #include <iostream>
-#include<math.h>
-#include<windows.h> // Para manejar graficos 
-#include<conio.h> // Para leer teclas 
-#include<time.h>
-#include<stdlib.h>
+#include <math.h>
+#include <windows.h>
+#include <conio.h>
+#include <time.h>
+#include <stdlib.h>
 using namespace std;
-static int tope = 10;    //Contador  y declaración de la variable estatica
 
-// Obtener manejador de consola
+static int tope = 10;
+
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
 
-//CONSTANTES
-#define TAMN1 3 // Tamaño para el tablero del primer nivel
-#define TAMN2 5 // Tamaño para el tablero del primer nivel
-#define TAMN3 7 // Tamaño para el tablero del primer nivel
+#define TAMN1 3
+#define TAMN2 5
+#define TAMN3 7
 
-//COLORES
-enum{AZUL=1, VERDE, CYAN, ROJO, MAGENTA, AMARILLO};
+enum {AZUL = 1, VERDE, CYAN, ROJO, MAGENTA, AMARILLO};
 
-//STRUCT
-struct Usuario{
+struct Usuario {
     char nombre[10];
     char contrasena[20];
 };
 
-// PROTOTIPOS
 void limpiarPantalla();
 void MostrarMenu();
 void iniciarSesion(Usuario usuarios[], int tope);
@@ -42,111 +38,197 @@ void realizarRegistro();
 void elegirNivel();
 bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char contrasena[]);
 
-int main(){
-  cout << "Proyecto FRED";
-  MostrarMenu();
-  Usuario usuarios[10]; //Arreglo de usuarios inicializado
-  iniciarSesion(usuarios, tope);    //  Pasar el arreglo de usuarios
-  return 0;
+void mostrarBienvenida();
+void mostrarMejoresPuntajes();
+void mostrarInicio();
+void menuOpciones();
+void mostrarHistorial();
+void volverMenu();
+
+int main() {
+    cout << "Proyecto FRED\n";
+    mostrarBienvenida();
+    return 0;
 }
 
-// IMPLEMENTACION 
-void limpiarPantalla(){
-  system("pause"); // Pausar ejecución antes de limpiar la pantalla 
-  system("cls"); // Limpiar la pantalla
+void limpiarPantalla() {
+    system("pause");
+    system("cls");
 }
 
-void MostrarMenu(){
-  int opc;
-
-  cout << "Menu";
-  cout << "1 - Opcion";
-  cout << "2 - Opcion";
-  cout << "Ingresa una opcion: ";
-  cin >> opc;
-  
+void MostrarMenu() {
+    int opc;
+    cout << "Menu\n";
+    cout << "1 - Opcion\n";
+    cout << "2 - Opcion\n";
+    cout << "Ingresa una opcion: ";
+    cin >> opc;
 }
 
-void iniciarSesion(Usuario usuarios[], int tope){
-  char tieneCuenta;
-  char nombre[20];
-  char contrasena[20];
+void iniciarSesion(Usuario usuarios[], int tope) {
+    char tieneCuenta;
+    char nombre[20];
+    char contrasena[20];
 
-  do{
-    cout<<"Tienes una cuenta? (s/n)";
-    cin>> tieneCuenta;
+    do {
+        cout << "Tienes una cuenta? (s/n): ";
+        cin >> tieneCuenta;
 
-      if (tieneCuenta == 'n' || tieneCuenta == 'N')  {
-       MostrarMenu();
-       break;
-      } else if (tieneCuenta == 's' || tieneCuenta == 'S')  {
+        if (tieneCuenta == 'n' || tieneCuenta == 'N') {
+            MostrarMenu();
+            break;
+        } else if (tieneCuenta == 's' || tieneCuenta == 'S') {
             cout << "Nombre de usuario: ";
             cin >> nombre;
             cout << "Contrasena: ";
-            cin>> contrasena;
+            cin >> contrasena;
 
-              if (buscarUsuarios(usuarios, tope, nombre, contrasena)) {
+            if (buscarUsuarios(usuarios, tope, nombre, contrasena)) {
                 MostrarMenu();
-                break;    //Termina el proceso al enttrar correctamente 
-              } else  {
-                cout << "Nombre o contrasena incorrectos. \n";
-              }   //Vuelve al inicio del ciclo
-    
+                break;
+            } else {
+                cout << "Nombre o contrasena incorrectos.\n";
+            }
         } else {
-          cout << "Opcion no valida. Intenta de nuevo. \n";
+            cout << "Opcion no valida. Intenta de nuevo.\n";
         }
-      
-  
-  } while(true);   
+
+    } while (true);
 }
 
-bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char contrasena[]){
-  for (int i = 0; i < tope; i++) {
-    if (strcmp(usuarios[i].nombre, nombre) == 0 &&
-    strcmp(usuarios[i].contrasena, contrasena) == 0) {
-    return true;
-}
-}
-return false;
-
-}
-
-void realizarRegistro(){
-
-}
-
-/*
-  -Explica reglas del juego
-  -Tiene un menú y da a elegir entre 3 niveles:
-        1)Nivel 1: llama a jugarNivel1
-        2)Nivel 2: llama a jugarNivel2
-        3)Nivel 3: llama a jugarNivel3
-  -En el menú, también tiene opción de atrás: llama a menuOpciones
-*/
-void elegirNivel(){
-  int opc=0, tab1[TAMN1][TAMN1], tab2[TAMN2][TAMN2], tab3[TAMN3][TAMN3];
-  float opcion=0;
-  cout<<"\nEste es un juego para trabajar tu memeoria:\nSe mostrara en pantalla una secuencia de colores en una tabla\nla cual deberas memorizar y replicar posteriormente.\n\n";
-  cout<<"Muévete por las casillas usando las letras de flechas y presiona Enter para seleccionar una.\n\n";
-  do{
-    cout<<"\nNivel 1......1";
-    cout<<"\nNivel 2......2";
-    cout<<"\nNivel 3......3";
-    cout<<"\nAtras........4";
-    cout<<"\nElige una opcion: ";
-    cin>>opcion;
-    if(cin.fail()){ // Si la entrada no es un numero
-      cin.clear(); // Limpiar estado de error de cin
-      cin.ignore(1000,'\n'); // Descartar entrada inválida hasta mil caracteres o hasta encontrar un salto de línea
-    } 
-    else if(fmod(opcion,1)!=0) cout<<" "; // Descartar numeros con decimales 
-    else opc=static_cast<int>(opcion); // convertir opcion a entero para que pueda ser evaluado por switch
-    switch(opc){
-          case 1: break;
-          case 2: break;
-          case 3: break;
-          case 4: MostrarMenu(); break;
-          default: cout<<"Ups! esa opcion es invalida, intenta de nuevo";
+bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char contrasena[]) {
+    for (int i = 0; i < tope; i++) {
+        if (strcmp(usuarios[i].nombre, nombre) == 0 &&
+            strcmp(usuarios[i].contrasena, contrasena) == 0) {
+            return true;
+        }
     }
-  }while(opc!=4);
+    return false;
+}
+
+void realizarRegistro() {
+}
+
+void mostrarBienvenida() {
+    cout << "=== Bienvenido a fabFred ===\n";
+    mostrarMejoresPuntajes();
+    mostrarInicio();
+}
+
+void mostrarMejoresPuntajes() {
+    cout << "[Mostrar mejores puntajes de todos los jugadores]\n";
+}
+
+void mostrarInicio() {
+    int opcionInicio;
+    cout << "\n¿Deseas comenzar el juego?\n";
+    cout << "1. Sí\n";
+    cout << "2. No (Salir)\n";
+    cin >> opcionInicio;
+
+    if (opcionInicio == 1) {
+        int opcionCuenta;
+        cout << "¿Ya tienes una cuenta?\n";
+        cout << "1. Sí (Iniciar sesión)\n";
+        cout << "2. No (Registrarse)\n";
+        cin >> opcionCuenta;
+
+        cout << "[Aquí iría: ";
+        if (opcionCuenta == 1) cout << "Iniciar Sesión";
+        else cout << "Registro";
+        cout << "]\n";
+
+        cout << "[Luego iría a menuOpciones() si todo es exitoso]\n";
+        menuOpciones();
+    } else {
+        cout << "¡Hasta pronto!\n";
+    }
+}
+
+void menuOpciones() {
+    int opcion;
+    cout << "\n--- Menú Principal ---\n";
+    cout << "1. Ver historial del usuario\n";
+    cout << "2. Comenzar juego (elegir nivel)\n";
+    cout << "3. Ver historial de jugadores (mejores puntajes)\n";
+    cout << "4. Salir al inicio\n";
+    cin >> opcion;
+
+    switch (opcion) {
+        case 1:
+            mostrarHistorial();
+            break;
+        case 2:
+            elegirNivel();
+            break;
+        case 3:
+            mostrarMejoresPuntajes();
+            volverMenu();
+            break;
+        case 4:
+            mostrarInicio();
+            break;
+        default:
+            cout << "Opción no válida\n";
+            menuOpciones();
+            break;
+    }
+}
+
+void mostrarHistorial() {
+    cout << "[Mostrar historial del usuario actual]\n";
+    cout << "1. Volver al menú principal\n";
+    int op;
+    cin >> op;
+    menuOpciones();
+}
+
+void elegirNivel() {
+    int opc = 0, tab1[TAMN1][TAMN1], tab2[TAMN2][TAMN2], tab3[TAMN3][TAMN3];
+    float opcion = 0;
+
+    cout << "\nEste es un juego para trabajar tu memoria:\n";
+    cout << "Se mostrará una secuencia de colores en una tabla\n";
+    cout << "la cual deberás memorizar y replicar después.\n\n";
+    cout << "Muévete por las casillas usando letras de flechas y presiona Enter para seleccionar.\n";
+
+    do {
+        cout << "\nNivel 1......1";
+        cout << "\nNivel 2......2";
+        cout << "\nNivel 3......3";
+        cout << "\nAtras........4";
+        cout << "\nElige una opcion: ";
+        cin >> opcion;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+        } else if (fmod(opcion, 1) != 0) {
+            cout << "";
+        } else {
+            opc = static_cast<int>(opcion);
+        }
+
+        switch (opc) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                MostrarMenu();
+                break;
+            default:
+                cout << "Ups! esa opcion es invalida, intenta de nuevo";
+        }
+
+    } while (opc != 4);
+}
+
+void volverMenu() {
+    cout << "Presiona una tecla para volver al menú...\n";
+    cin.ignore();
+    cin.get();
+    menuOpciones();
 }
