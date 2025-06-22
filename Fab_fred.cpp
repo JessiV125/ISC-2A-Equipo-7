@@ -32,19 +32,23 @@ struct Usuario {
 
 void mostrarTitulo();
 void limpiarPantalla();
-void MostrarMenu();
+void mostrarMenu();
 void iniciarSesion(Usuario usuarios[], int tope);
-void MostrarInicio();
 void realizarRegistro();
 void elegirNivel();
 bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char contrasena[]);
-
 void mostrarBienvenida();
 void mostrarMejoresPuntajes();
 void mostrarInicio();
 void menuOpciones();
 void mostrarHistorial();
 void volverMenu();
+void mostrarMensajeDespedida();
+void mostrarAyuda();
+void cargarPartida();
+void verMejoresPuntajes();
+void guardarJugador(const char nombre[], const char contrasena[]);
+void cargarJugadores(Usuario usuarios[], int &cantidad);
 
 void mostrarTitulo(){
     SetConsoleTextAttribute(hConsole, CYAN);
@@ -108,13 +112,51 @@ void limpiarPantalla() {
     system("cls");
 }
 
-void MostrarMenu() {
-    int opc;
-    cout << "Menu\n";
-    cout << "1 - Opcion\n";
-    cout << "2 - Opcion\n";
-    cout << "Ingresa una opcion: ";
-    cin >> opc;
+void mostrarMenu(){
+	int opc;
+  	float opcion;
+
+	do{
+		SetConsoleTextAttribute(hConsole, ROJO);
+		opc = 0;
+		cout << "\n   === MENU PRINCIPAL ===" << endl;
+		cout << "\nJugar.........................1";	
+		cout << "\nVer mejores puntajes..........2";
+		cout << "\nCargar partida................3";
+		cout << "\nAyuda.........................4";
+		cout << "\nCreditos......................5";
+		cout << "\nSalir.........................6";
+		cout << "\nOpcion: ";
+		cin >> opcion;
+		SetConsoleTextAttribute(hConsole, BLANCO);
+		
+		if(cin.fail()){
+			cin.clear();
+			cin.ignore(1000,'\0');
+		}
+		else if (fmod(opcion,1)==0) opc = static_cast <int> (opcion);
+		
+		switch (opc) {
+			case 1: system("cls");
+					iniciarSesion(); 
+					break;
+			case 2: system("cls");
+					verMejoresPuntajes(); 
+					break;
+			case 3: system("cls");
+					cargarPartida();
+					break;
+			case 4: mostrarAyuda();
+					break;
+			case 5: mostrarMensajeDespedida();
+					break;
+			case 6: mostrarMensajeDespedida();
+					break;
+			default: cout << "Opcion invalida";
+					Sleep(1500);
+					system("cls");
+		}
+	}while(opc != 6);  
 }
 
 void iniciarSesion(Usuario usuarios[], int tope) {
@@ -278,9 +320,28 @@ void elegirNivel() {
     } while (opc != 4);
 }
 
+void mostrarMensajeDespedida() {
+    system("cls");
+    SetConsoleTextAttribute(hConsole, AMARILLO);
+    cout << "\n";
+    cout << "  ================================================================\n";
+    cout << "                                                                  \n";
+    cout << "                    ¡GRACIAS POR JUGAR!                          \n";
+    cout << "                                                                  \n";
+    cout << "                      FABULOSO FRED                              \n";
+    cout << "                    JUEGO DE MEMORIA                             \n";
+    cout << "                                                                  \n";
+    cout << "              ¡Esperamos verte de nuevo pronto!                  \n";
+    cout << "                                                                  \n";
+    cout << "  ================================================================\n";
+    cout << "\n";
+    SetConsoleTextAttribute(hConsole, BLANCO);
+    Sleep(3000);
+}
+
 void volverMenu() {
-    cout << "Presiona una tecla para volver al menú...\n";
+    cout << "Presiona Enter para volver al menú...\n";
     cin.ignore();
     cin.get();
-    menuOpciones();
+    system("cls");
 }
