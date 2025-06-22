@@ -2,7 +2,7 @@ Cronograma de trabajo: https://eduuaa-my.sharepoint.com/:w:/g/personal/al281957_
 
 Requsitos para el proyecto (marcar lo que se vaya completando): https://docs.google.com/document/d/1JMDPM7sRZwU58qVjIj_MWZH-BtW1Spc6Jvyumx-W_Jw/edit?usp=sharing
 
-FUNCIONES PARA fabFred
+FUNCIONES PARA fabFred (modificar y agregar según sea necesario)
 
 mostrarBienvenida: 
 
@@ -96,25 +96,40 @@ elegirNivel:
       Explica reglas del juego
       
       Tiene un menú y da a elegir entre 3 niveles:
-              
-            Nivel 1: llama a jugarNivel1
-            
-            Nivel 2: llama a jugarNivel2
-
-            Nivel 3: llama a jugarNivel3
       
       Tiene opción de atrás: llama a menuOpciones
 
 
-volverMenu: 
+jugarNiveles:    
 
-      Funcion exclusiva para regresar de mostrarMejoresPuntajes a menuOpciones (en un principio se muestra mostrarMejoresPuntajes, pero ahí no requiere un atrás)
+        Hace llamada a otras funciones para crear tbelro y jugar.
 
+crearTablero:
 
-jugarNivel1: 3*3
+        Crea el tablero del juego con diferentes tamaños dependiendo del nivel que se juega.
 
+inicializarTablero:
 
-jugarNivel2: 5*5
+        iniciliza el tablero
 
+generarSecuencia:
 
-jugarNivel3: 7*7
+        Genera la(s) posicione(s) de la(s) casilla(s) a encender
+
+mostrarSecuencia:
+
+        Enciende las celdas y llama a dibujarTablero
+
+dibujarTablero:
+
+        Dibuja el tablero para mostrar la secuencia a repetir o la posicion en la que se ubica el jugador para repetir la secuencia
+
+moverJugador:
+
+        Mueve al jugador en el tablero dependiendo de la flecha preionada en teclado
+
+verificarSeleccion:
+        Comprueba la seleccion del jugador
+
+void eliminarTablero:
+        Libera el espacio en memoeria que ocupa el tablero actual para crear otro con otro tamaño dependiendo del nivel que el usuario desee jugar
