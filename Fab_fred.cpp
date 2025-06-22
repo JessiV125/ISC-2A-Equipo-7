@@ -13,6 +13,7 @@ Danna Sofía Morales Esparza
 #include <conio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <cstring>
 using namespace std;
 
 static int tope = 10;
@@ -32,15 +33,14 @@ struct Usuario {
 
 void mostrarTitulo();
 void limpiarPantalla();
-void mostrarMenu();
+void MostrarMenu();
 void iniciarSesion(Usuario usuarios[], int tope);
-void realizarRegistro();
+void realizarRegistro(Usuario usuarios[], int &tope);
 void elegirNivel();
 bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char contrasena[]);
 void mostrarBienvenida();
 void mostrarMejoresPuntajes();
 void mostrarInicio();
-void menuOpciones();
 void mostrarHistorial();
 void volverMenu();
 void mostrarMensajeDespedida();
@@ -112,7 +112,7 @@ void limpiarPantalla() {
     system("cls");
 }
 
-void mostrarMenu(){
+void MostrarMenu(){
 	int opc;
   	float opcion;
 
@@ -136,25 +136,28 @@ void mostrarMenu(){
 		}
 		else if (fmod(opcion,1)==0) opc = static_cast <int> (opcion);
 		
-		switch (opc) {
-			case 1: system("cls");
-					iniciarSesion(); 
-					break;
-			case 2: system("cls");
-					verMejoresPuntajes(); 
-					break;
-			case 3: system("cls");
-					cargarPartida();
-					break;
-			case 4: mostrarAyuda();
-					break;
-			case 5: mostrarMensajeDespedida();
-					break;
-			case 6: mostrarMensajeDespedida();
-					break;
-			default: cout << "Opcion invalida";
-					Sleep(1500);
-					system("cls");
+      switch (opc) {
+        case 1: { system("cls");
+                  Usuario usuarios[tope];
+                  cargarJugadores(usuarios, tope);
+                  iniciarSesion(usuarios, tope); 
+                  break;
+                }
+        case 2: system("cls");
+                verMejoresPuntajes(); 
+                break;
+			  case 3: system("cls");
+	      				cargarPartida();
+				      	break;
+			  case 4: mostrarAyuda();
+					      break;
+			  case 5: mostrarMensajeDespedida();
+					      break;
+			  case 6: mostrarMensajeDespedida();
+					      break;
+			  default: cout << "Opcion invalida";
+					      Sleep(1500);
+					      system("cls");
 		}
 	}while(opc != 6);  
 }
@@ -163,12 +166,14 @@ void iniciarSesion(Usuario usuarios[], int tope) {
     char tieneCuenta;
     char nombre[20];
     char contrasena[20];
+    int cantidad = tope;
 
     do {
         cout << "Tienes una cuenta? (s/n): ";
         cin >> tieneCuenta;
 
         if (tieneCuenta == 'n' || tieneCuenta == 'N') {
+            realizarRegistro(usuarios, cantidad);
             MostrarMenu();
             break;
         } else if (tieneCuenta == 's' || tieneCuenta == 'S') {
@@ -200,7 +205,24 @@ bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const cha
     return false;
 }
 
-void realizarRegistro() {
+void realizarRegistro(Usuario usuarios[], int &tope) {
+    char nombre[10];
+    char contrasena[20];
+    
+    cout << "=== REGISTRO DE NUEVO USUARIO ===\n";
+    cout << "Nombre de usuario: ";
+    cin >> nombre;
+    cout << "Contrasena: ";
+    cin >> contrasena;
+    
+    // Agregar el nuevo usuario al array
+    strcpy(usuarios[tope].nombre, nombre);
+    strcpy(usuarios[tope].contrasena, contrasena);
+    tope++;
+    
+    cout << "Usuario registrado exitosamente!\n";
+    system("pause");
+    system("cls");
 }
 
 void mostrarBienvenida() {
@@ -232,40 +254,10 @@ void mostrarInicio() {
         else cout << "Registro";
         cout << "]\n";
 
-        cout << "[Luego iría a menuOpciones() si todo es exitoso]\n";
-        menuOpciones();
+        cout << "[Luego iría a MostrarMenu() si todo es exitoso]\n";
+        MostrarMenu();
     } else {
         cout << "¡Hasta pronto!\n";
-    }
-}
-
-void menuOpciones() {
-    int opcion;
-    cout << "\n--- Menú Principal ---\n";
-    cout << "1. Ver historial del usuario\n";
-    cout << "2. Comenzar juego (elegir nivel)\n";
-    cout << "3. Ver historial de jugadores (mejores puntajes)\n";
-    cout << "4. Salir al inicio\n";
-    cin >> opcion;
-
-    switch (opcion) {
-        case 1:
-            mostrarHistorial();
-            break;
-        case 2:
-            elegirNivel();
-            break;
-        case 3:
-            mostrarMejoresPuntajes();
-            volverMenu();
-            break;
-        case 4:
-            mostrarInicio();
-            break;
-        default:
-            cout << "Opción no válida\n";
-            menuOpciones();
-            break;
     }
 }
 
@@ -274,7 +266,7 @@ void mostrarHistorial() {
     cout << "1. Volver al menú principal\n";
     int op;
     cin >> op;
-    menuOpciones();
+    MostrarMenu();
 }
 
 void elegirNivel() {
@@ -319,6 +311,23 @@ void elegirNivel() {
 
     } while (opc != 4);
 }
+
+void cargarJugadores(Usuario*, int&) {
+    // Por implementar
+}
+
+void verMejoresPuntajes() {
+    // Por implementar
+}
+
+void cargarPartida() {
+    // Por implementar
+}
+
+void mostrarAyuda() {
+    // Por implementar
+}
+
 
 void mostrarMensajeDespedida() {
     system("cls");
