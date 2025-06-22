@@ -15,6 +15,7 @@ Danna Sofía Morales Esparza
 #include<stdlib.h>
 using namespace std;
 static int tope = 10;    //Contador  y declaración de la variable estatica
+const int MAX = 100;
 
 // Obtener manejador de consola
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
@@ -52,11 +53,15 @@ enum Colores{AZUL=1, VERDE, CIAN, ROJO, MAGENTA, AMARILLO, BLANCO};
 
 // PROTOTIPOS
 void limpiarPantalla();
-void MostrarMenu();
+void MostrarMenu(Usuario[], int&, int);
+//registro
 void iniciarSesion(Usuario usuarios[], int tope);
-void MostrarInicio();
-void realizarRegistro();
-bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char contrasena[]);
+void realizarRegistro(Usuario[], int&, int);
+bool buscarUsuarios(Usuario[], int, const char*, const char* = nullptr);
+bool cumpleRequisitosUsuario(const char*);
+bool cumpleRequisitosContrasena(const char*);
+int cargarUsuariosDesdeArchivo(Usuario[], int);
+
 
 // FUNCIONES PARA JUGAR
 void elegirNivel();
@@ -69,12 +74,16 @@ void dibujarTablero();
 void moverJugador(int);
 bool verificarSeleccion();
 void eliminarTablero();
+void guardarPartida();
+void guardarPuntaje();
 
 int main(){
   srand(time(NULL));
   cout << "Proyecto FRED";
   MostrarMenu();
-  Usuario usuarios[10]; //Arreglo de usuarios inicializado
+  Usuario usuarios[MAX]; //Arreglo de usuarios inicializado
+  int tope = cargarUsuariosDesdeArchivo(usuarios, MAX);
+
   iniciarSesion(usuarios, tope);    //  Pasar el arreglo de usuarios
   return 0;
 }
@@ -127,52 +136,139 @@ void limpiarPantalla(){
   system("cls"); // Limpiar la pantalla
 }
 
-void iniciarSesion(Usuario usuarios[], int tope){
-  char tieneCuenta;
-  char nombre[20];
-  char contrasena[20];
+void iniciarSesion(Usuario usuarios[], int tope) {
+    char nombre[50];
+    char contrasena[50];
 
-  do{
-    cout<<"Tienes una cuenta? (s/n)";
-    cin>> tieneCuenta;
+    while (true) {
+        cout << "\nNombre de usuario: ";
+        cin >> nombre;
+        cout << "Contrasena: ";
+        cin >> contrasena;
 
-      if (tieneCuenta == 'n' || tieneCuenta == 'N')  {
-       MostrarMenu();
-       break;
-      } else if (tieneCuenta == 's' || tieneCuenta == 'S')  {
-            cout << "Nombre de usuario: ";
-            cin >> nombre;
-            cout << "Contrasena: ";
-            cin>> contrasena;
-
-              if (buscarUsuarios(usuarios, tope, nombre, contrasena)) {
-                MostrarMenu();
-                break;    //Termina el proceso al enttrar correctamente 
-              } else  {
-                cout << "Nombre o contrasena incorrectos. \n";
-              }   //Vuelve al inicio del ciclo
-    
-        } else {
-          cout << "Opcion no valida. Intenta de nuevo. \n";
+		if (buscarUsuarios(usuarios, tope, nombre, contrasena)) {   // Busca el usuario y contrasena
+            cout << "Inicio de sesion exitoso.\n";
+            MostrarMenu();
+            break;
         }
-      
-  
-  } while(true);   
+        else {
+            cout << "Nombre o contrasena incorrectos.\n";
+            char opcion;
+            cout << "Deseas intentar de nuevo? (s/n): ";
+            cin >> opcion;  
+            if (opcion == 'n' || opcion == 'N') {
+				MostrarMenu(usuarios, tope, 100); // Regresa al inicio
+                break;
+            }
+        }
+    }
+}
+// Validacion de nombre
+bool cumpleRequisitosUsuario(const char* nombre) {  
+	return strlen(nombre) >= 3;     // Verifica que el nombre tenga al menos 3 caracteres
 }
 
-bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char contrasena[]){
-  for (int i = 0; i < tope; i++) {
-    if (strcmp(usuarios[i].nombre, nombre) == 0 &&
-    strcmp(usuarios[i].contrasena, contrasena) == 0) {
-    return true;
-}
-}
-return false;
+// Validacion de contrasena
+bool cumpleRequisitosContrasena(const char* contra) {
+	if (strlen(contra) < 6) return false;       // Verifica longitud minima de 6 caracteres
 
+    bool mayus = false, minus = false, numero = false;
+    for (int i = 0; contra[i]; i++) {
+		if (isupper(contra[i])) mayus = true;   // Verifica mayusculas
+		if (islower(contra[i])) minus = true;   // Verifica minusculas
+		if (isdigit(contra[i])) numero = true;  // Verifica numeros
+    }
+	return mayus && minus && numero;    // Verifica que tenga al menos una mayuscula, una minuscula y un numero
 }
 
-void realizarRegistro(){
 
+// Buscar por nombre o nombre y contrasena
+bool buscarUsuarios(Usuario usuarios[], int tope, const char nombre[], const char* contrasena) {
+	for (int i = 0; i < tope; i++) {    // Recorre el arreglo de usuarios
+		if (strcmp(usuarios[i].nombre, nombre) == 0) {  // Compara el nombre
+			if (contrasena == nullptr || strcmp(usuarios[i].contrasena, contrasena) == 0) { // Compara la contrasena si se proporciona
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// Cargar usuarios desde archivo
+int cargarUsuariosDesdeArchivo(Usuario usuarios[], int maxUsuarios) {
+    FILE* archivo = fopen("usuarios.txt", "r");
+    if (!archivo) return 0;
+
+    int i = 0;
+	while (fscanf(archivo, "%s %s", usuarios[i].nombre, usuarios[i].contrasena) != EOF && i < maxUsuarios) {    // Lee el archivo
+        i++;
+    }
+    fclose(archivo);
+    return i;
+}
+
+
+
+// Funcion 3: Registro con validaciones y decisiones
+void realizarRegistro(Usuario usuarios[], int& tope, int maxUsuarios) {
+    char nombre[50], contrasena[50];
+
+    while (true) {
+        cout << "\nNombre de usuario (minimo 3 letras): ";
+        cin >> nombre;
+        cout << "Contrasena (minimo 6 caracteres, 1 mayuscula, 1 minuscula, 1 numero): ";
+        cin >> contrasena;
+
+		if (!cumpleRequisitosUsuario(nombre) || !cumpleRequisitosContrasena(contrasena)) {  // Verifica requisitos
+            cout << "El usuario o contrasena no cumplen los requisitos. Intenta de nuevo.\n";
+            continue;
+        }
+
+		if (buscarUsuarios(usuarios, tope, nombre)) {   // Verifica si el usuario ya existe
+            cout << "El usuario ya existe.\n";
+            cout << "1. Ingresar otro usuario\n";
+            cout << "2. Iniciar sesion\n";
+            cout << "3. Salir\n";
+            int opcion;
+            cin >> opcion;
+            if (opcion == 1) continue;
+            else if (opcion == 2) {
+				iniciarSesion(usuarios, tope);  // Inicia sesion
+                break;
+            }
+            else {
+                MostrarMenu(usuarios, tope, maxUsuarios);
+                break;
+            }
+        }
+        else {
+            // Guardar en arreglo y archivo
+			strcpy(usuarios[tope].nombre, nombre);  // Copia el nombre al arreglo
+			strcpy(usuarios[tope].contrasena, contrasena);  // Copia la contrasena al arreglo
+            FILE* archivo = fopen("usuarios.txt", "a");
+            if (archivo) {
+                fprintf(archivo, "%s %s\n", nombre, contrasena);
+                fclose(archivo);
+            }
+            tope++;
+
+            cout << "Registro exitoso.\n";
+            cout << "1. Ingresar otro usuario\n";
+            cout << "2. Iniciar sesion\n";
+            cout << "3. Salir\n";
+            int opcion;
+            cin >> opcion;
+			if (opcion == 1) continue;  // Permite ingresar otro usuario
+			else if (opcion == 2) {     // Inicia sesion
+                iniciarSesion(usuarios, tope);
+                break;
+            }
+            else {
+                MostrarMenu(usuarios, tope, maxUsuarios);
+                break;
+            }
+        }
+    }
 }
 
 
