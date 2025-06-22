@@ -23,13 +23,14 @@ HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 #define TAMN2 5
 #define TAMN3 7
 
-enum {AZUL = 1, VERDE, CYAN, ROJO, MAGENTA, AMARILLO};
+enum {AZUL = 1, VERDE, CYAN, ROJO, MAGENTA, AMARILLO, BLANCO};
 
 struct Usuario {
     char nombre[10];
     char contrasena[20];
 };
 
+void mostrarTitulo();
 void limpiarPantalla();
 void MostrarMenu();
 void iniciarSesion(Usuario usuarios[], int tope);
@@ -45,8 +46,59 @@ void menuOpciones();
 void mostrarHistorial();
 void volverMenu();
 
+void mostrarTitulo(){
+    SetConsoleTextAttribute(hConsole, CYAN);
+    cout << "\n";
+    cout << "  ================================================================\n";
+    cout << "                                                                  \n";
+    cout << "    ######   #####   ######       ######  #####   #######  ######\n";
+    cout << "    ##      ##   ##  ##   ##      ##      ##  ##  ##       ##   ##\n";
+    cout << "    #####   #######  ######       #####   #####   #####    ##   ##\n";
+    cout << "    ##      ##   ##  ##   ##      ##      ##  ##  ##       ##   ##\n";
+    cout << "    ##      ##   ##  ######       ##      ##  ##  #######  ######\n";
+    cout << "                                                                  \n";
+    
+    SetConsoleTextAttribute(hConsole, VERDE);
+    cout << "                    << JUEGO DE MEMORIA >>                       \n";
+    
+    SetConsoleTextAttribute(hConsole, CYAN);
+    cout << "                                                                  \n";
+    cout << "  ================================================================\n";
+    cout << "\n";
+    
+    // Mensaje de bienvenida
+    SetConsoleTextAttribute(hConsole, AMARILLO);
+    cout << "                    ¡BIENVENIDO AL DESAFIO!\n";
+    cout << "\n";
+    
+    SetConsoleTextAttribute(hConsole, BLANCO);
+    cout << "  Prepara tu mente para el mayor reto de memoria y concentracion.\n";
+    cout << "  ¿Podras seguir la secuencia hasta el final?\n";
+    cout << "\n";
+    
+    SetConsoleTextAttribute(hConsole, BLANCO);
+    cout << "\n";
+    cout << "  >> CONSEJOS:\n";
+    cout << "     * Concentrate al maximo\n";
+    cout << "     * Toma tu tiempo para recordar\n";
+    cout << "     * La practica hace al maestro\n";
+    cout << "     * ¡Mantén la calma bajo presion!\n";
+    cout << "\n";
+    
+    SetConsoleTextAttribute(hConsole, AMARILLO);
+    cout << "  ================================================================\n";
+    cout << "           ¡Que comience el entrenamiento mental!\n";
+    cout << "  ================================================================\n";
+    cout << "\n";
+    
+    SetConsoleTextAttribute(hConsole, BLANCO);
+    cout << "  Presiona cualquier tecla para comenzar el desafio...";
+    cin.get(); // Pausa para que el usuario lea la bienvenida
+    system("cls"); // Limpiar pantalla después de la bienvenida
+}
+
 int main() {
-    cout << "Proyecto FRED\n";
+    mostrarTitulo();
     mostrarBienvenida();
     return 0;
 }
