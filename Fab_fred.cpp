@@ -16,6 +16,8 @@ Danna Sofía Morales Esparza
 #include <cstring>
 using namespace std;
 
+
+
 static int tope = 10;
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
@@ -29,11 +31,19 @@ enum {AZUL = 1, VERDE, CYAN, ROJO, MAGENTA, AMARILLO, BLANCO};
 struct Usuario {
     char nombre[10];
     char contrasena[20];
+	int puntajeMejor;
+};
+
+struct Celda{
+	int numero;
+	bool encendida;	
 };
 
 void mostrarTitulo();
+
 void limpiarPantalla();
-void MostrarMenu();
+void MostrarMenu(Usuario[], int&, int);
+//registro
 void iniciarSesion(Usuario usuarios[], int tope);
 void realizarRegistro(Usuario usuarios[], int &tope);
 void elegirNivel();
@@ -111,6 +121,7 @@ void limpiarPantalla() {
     system("pause");
     system("cls");
 }
+
 
 void MostrarMenu(){
 	int opc;
