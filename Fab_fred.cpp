@@ -24,6 +24,7 @@ HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 struct Usuario{
     char nombre[10];
     char contrasena[20];
+	int puntajeMejor;
 };
 
 struct Celda{
@@ -95,7 +96,7 @@ void MostrarMenu(){
 
   cout << "Menu";
   
-   << "1 - Opcion";
+	cout << "1 - Opcion";
   cout << "2 - Opcion";
   cout << "Ingresa una opcion: ";
   cin >> opc;
@@ -414,7 +415,8 @@ void jugarNiveles(int nivel) {
 			}
 		}
 	}
-	
+}
+
 /* Función: guardarPuntaje
    Propósito: Guarda el puntaje obtenido en la partida actual y registra en el historial
    Parámetros: Ninguno
@@ -579,7 +581,7 @@ void dibujarTablero() {
 				cout << "[";
 				if(tablero[i][j].numero<10) cout << " ";
 				cout << tablero[i][j].numero << "]";
-			};
+			}
 			
 			// Mostrar posición del jugador en el tablero
 			else {
