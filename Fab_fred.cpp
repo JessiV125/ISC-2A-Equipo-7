@@ -76,6 +76,7 @@ bool verificarSeleccion();
 void eliminarTablero();
 void guardarPartida();
 void guardarPuntaje();
+void mostrarHistorialUsuario();
 
 int main(){
   srand(time(NULL));
@@ -93,7 +94,8 @@ void MostrarMenu(){
   int opc;
 
   cout << "Menu";
-  cout << "1 - Opcion";
+  
+   << "1 - Opcion";
   cout << "2 - Opcion";
   cout << "Ingresa una opcion: ";
   cin >> opc;
@@ -413,98 +415,70 @@ void jugarNiveles(int nivel) {
 		}
 	}
 	
-	// AL FINALIZAR EL JUEGO:
-	guardarPuntaje(); // Guardar puntaje obtenido
-	system("cls");
-	int opc = 0;
-	float opcion = 0;
+/* Función: guardarPuntaje
+   Propósito: Guarda el puntaje obtenido en la partida actual y registra en el historial
+   Parámetros: Ninguno
+   Valor de retorno: Ninguno */
+void guardarPuntaje() {
+    // 1. Guardar en archivo de mejores puntajes (original)
+    FILE* archivoPuntajes = fopen("mejores_puntajes.txt", "a");
+    if(archivoPuntajes != NULL) {
+        fprintf(archivoPuntajes, "%s %d\n", nombreJugadorActual, puntaje);
+        fclose(archivoPuntajes);
+    }
 
-	if(longitudSecuencia<secuenciaMaxima) { // Si no completa el nivel
-		do {
-			cout<<"\nSecuencia incorrecta. Fin del juego";
-			cout<<"\nPuntaje alcanzado: "<<puntaje;
-			cout<<"\nSecuencia alcanzada: "<<longitudSecuencia-1;
-			cout<<"\nRepetir nivel.........1";
-			cout<<"\nRegresar..............2";
-			cout<<"\nTu eleccion: ";
-			cin>>opcion;
-			if(cin.fail()) {
-				cin.clear();
-				cin.ignore(1000,'\n');
-				system("cls");
-				cout<<"Entrada invalida";
-				Sleep(2000);
-				system("cls");
-			}
-			else if(fmod(opcion,1) == 0) opc=static_cast<int>(opcion);
-			switch(opc) {
-				case 1: jugarNiveles(nivel); return; 
-				case 2: eliminarTablero();
-						elegirNivel(); return;
-			}
-		}while(opc != 1 || opc != 2);
-	}
-	
-	else if(nivel == 1 || nivel == 2) { // Si completa el nivel 1 o 2 
-		do {
-			cout << "\nNivel completado";
-			cout << "\nPuntaje alcanzado: "<<puntaje;
-			cout << "\nPasar al siguiente nivel.........1";
-			cout << "\nRegresar.........................2";
-			cout << "\nTu eleccion: ";
-			cin>>opcion;
-			if(cin.fail()) {
-				cin.clear();
-				cin.ignore(1000,'\n');
-				system("cls");
-				cout<<"Entrada invalida";
-				Sleep(2000);
-				system("cls");
-			}
-			else if(fmod(opcion,1) == 0) opc=static_cast<int>(opcion);
-			else {
-				system("cls");
-				cout<<"Entrada invalida";
-				Sleep(2000);
-				system("cls");	
-			}
-			switch(opc) {
-				case 1: eliminarTablero();
-						jugarNiveles(nivel+1); return;  // Siguiente nivel
-				case 2: eliminarTablero();
-						elegirNivel(); return;
-			}
-		}while(opc != 1 || opc != 2);
-	}
-	
-	else { // Si completa el nivel 3
-		do {
-			cout << "\nNivel completado";
-			cout << "\nPuntaje alcanzado: "<<puntaje;
-			cout << "\nRegresar.............1";
-			cout << "\nTu eleccion: ";
-			cin >> opcion;
-			if(cin.fail()) {
-				cin.clear();
-				cin.ignore(1000,'\n');
-				system("cls");
-				cout << "Entrada invalida";
-				Sleep(2000);
-				system("cls");
-			}
-			else if(opcion==1) {
-				eliminarTablero();
-				elegirNivel();
-				return;
-			} 
-			else {
-				system("cls");
-				cout<<"Entrada invalida";
-				Sleep(2000);
-				system("cls");	
-			}
-		}while(opcion != 1);
-	}
+    // 2. Actualizar mejor puntaje del jugador (nuevo)
+    Usuario usuarios[MAX];
+    int cantidadUsuarios = cargarUsuariosDesdeArchivo(usuarios, MAX);
+    
+    for(int i = 0; i < cantidadUsuarios; i++) {
+        if(strcmp(usuarios[i].nombre, nombreJugadorActual) == 0) {
+            if(puntaje > usuarios[i].puntajeMejor) {
+                usuarios[i].puntajeMejor = puntaje;
+                
+                // Actualizar archivo de usuarios
+                FILE* archivoUsuarios = fopen("usuarios.txt", "w");
+                if(archivoUsuarios != NULL) {
+                    for(int j = 0; j < cantidadUsuarios; j++) {
+                        fprintf(archivoUsuarios, "%s %s %d\n", 
+                                usuarios[j].nombre, 
+                                usuarios[j].contrasena, 
+                                usuarios[j].puntajeMejor);
+                    }
+                    fclose(archivoUsuarios);
+                }
+                break;
+            }
+        }
+    }
+
+    // 3. Guardar en archivo de historial (nuevo)
+    FILE* archivoHistorial = fopen("historial_jugadas.txt", "a");
+    if(archivoHistorial != NULL) {
+        // Obtener fecha y hora actual
+        time_t ahora = time(NULL);
+        struct tm* tiempoLocal = localtime(&ahora);
+        char fechaHora[20];
+        strftime(fechaHora, sizeof(fechaHora), "%Y-%m-%d %H:%M:%S", tiempoLocal);
+        
+        // Determinar nivel actual
+        int nivel;
+        if(tamTablero == 3) nivel = 1;
+        else if(tamTablero == 5) nivel = 2;
+        else nivel = 3;
+        
+        // Guardar registro de historial
+        fprintf(archivoHistorial, "%s %d %d %s\n", 
+                nombreJugadorActual, 
+                nivel, 
+                puntaje, 
+                fechaHora);
+        fclose(archivoHistorial);
+    }
+    
+    // 4. Mensaje de confirmación (original)
+    cout << "\nPuntuacion guardada exitosamente!" << endl;
+    Sleep(2000);
 }
 
 
@@ -605,7 +579,7 @@ void dibujarTablero() {
 				cout << "[";
 				if(tablero[i][j].numero<10) cout << " ";
 				cout << tablero[i][j].numero << "]";
-			}
+			};
 			
 			// Mostrar posición del jugador en el tablero
 			else {
